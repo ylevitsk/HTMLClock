@@ -4,11 +4,16 @@
        <title> lab2</title>
        <link href = "css/clock.css" rel = "stylesheet" type = "text/css">
    </head>
-   <body onload = "getTime()">
-      <h1 class = "newStyle">Yuliya's Clock</h1>
+   <body>
+      <h1 class = "newStyle">Yuliya's Weather Clock</h1>
       <p id ="clock">4:08</p>
+      <p id = "alarm"> No Alarms Set!</p>
+
+      <img id = "forecastIcon">
+      <div id = "forecastLabel"></div>
       <br>
-      <p id = "clock"> No Alarm Set</p>
-      <script src= "js/clock.js"> </script>
+      
+      <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+      <script type="text/javascript" src="js/clock.js"></script>
    </body>
 </html>

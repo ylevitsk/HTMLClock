@@ -1,5 +1,8 @@
 body{
    background-color: blue;
+   text-align: center;
+   padding-top: 40px;
+   
 }
 h1{ 
    text-align:center;
@@ -8,10 +11,45 @@ h1{
 .newStyle{
    font-size:30px;
    font-style: oblique;
-   text-align: center;
+}
+
+.small {
+    font-size: 0.7em;
+}
+
+#forecastIcon {
+    margin-top: 1em;
+}
+
+#forecastLabel {
+    margin-top: 2em;
 }
 
 #clock {
-   font-size: 70px;
+   margin-top: 0;
+   font-size:40px;
+}
+
+#alarm {
    text-align: center
+}
+
+.cold{
+   background-color: #95A5A6
+}
+
+.chilly{
+   background-color: #1ABC9C
+}
+
+.nice{
+   background-color: #2980B9
+}
+
+.warm{
+   background-color: #E67E22
+}
+
+.hot{
+   background-color: #E74C3C
 }
