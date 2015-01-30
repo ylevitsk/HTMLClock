@@ -1,6 +1,7 @@
 window.onload = function() {
     window.setInterval(getTime, 1000);
     getTemp();
+    getAllAlarms();
 };
 
 function addZero(i){
@@ -52,14 +53,20 @@ function getTemp(){
       return color;
     }
 }
-function showAlarmPopup(){
-   $("#mask").removeClass("hide");
-   $("#popup").removeClass("hide");
-}
-
+      
 function hideAlarmPopup(){
    $("#mask").addClass("hide");
    $("#popup").addClass("hide");
+}
+function deleteAlarm(name, time){
+   var AlarmObject = Parse.Object.extend("Alarm");
+   var query = new Parse.Query(AlarmObject);
+   query.equalTo("alarmName", name);
+   query.find( {
+      success: function(results) {
+         results[0].destroy({});
+      }
+   });
 }
 
 function insertAlarm(hours, min, ampm, alarmName){
@@ -70,14 +77,46 @@ function insertAlarm(hours, min, ampm, alarmName){
    n2.html(hours + ":" + min + ampm);
    n.append(n1);
    n.append(n2);
+   n.click(function(){
+      name = $(this).find(".name").text();
+      time = $(this).find(".time").text();
+      deleteAlarm(name, time);
+      $(this).remove();
+   });
    $("#alarms").append(n);
 }
 
+function showAlarmPopup(){
+   $("#mask").removeClass("hide");
+   $("#popup").removeClass("hide");
+}
+
+function getAllAlarms(){
+   Parse.initialize("8ZXncMNhSNAaZd1ZKFcJLwPfWtByRasBKkKLNGPI", "TcuvXfgaLecf1VbaKD0gkI3GHFtRXPcl2DKwbLm1");
+   var AlarmObject = Parse.Object.extend("Alarm");
+   var query = new Parse.Query(AlarmObject);
+   query.find({
+      success: function(results) {
+         for (var i = 0; i < results.length; i++) { 
+             insertAlarm(results[i].attributes.hours, results[i].attributes.mins, results[i].attributes.ampm, results[i].attributes.alarmName);
+         }
+      }
+   });
+}
+
 function addAlarm(){
-  var hours = $("#hours option:selected").text();
-  var mins = $("#mins option:selected").text();
-  var ampm = $("#ampm option:selected").text();
-  var alarmName = $("#alarmName").val();
-  insertAlarm(hours, mins, ampm, alarmName);
-  hideAlarmPopup();
+   var hours = $("#hours option:selected").text();
+   var mins = $("#mins option:selected").text();
+   var ampm = $("#ampm option:selected").text();
+   var alarmName = $("#alarmName").val();
+  
+   var AlarmObject = Parse.Object.extend("Alarm");
+   var alarmObject = new AlarmObject();
+
+   alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm, "alarmName": alarmName}, {
+      success: function(object) {
+         insertAlarm(hours, mins, ampm, alarmName);
+         hideAlarmPopup();
+      }   
+    }); 
 }
