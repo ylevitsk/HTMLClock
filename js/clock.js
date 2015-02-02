@@ -56,7 +56,6 @@ function getTemperature(lat, longi){
    var cityURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + longi + "&sensor=true";
    
    var getCity = function(data) {
-      window.alert("h");
       var city = data.results[0].address_components[2].long_name;
       document.getElementById("city").innerHTML = city;
    };
