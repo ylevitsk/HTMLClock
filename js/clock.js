@@ -55,12 +55,12 @@ function getTemperature(lat, longi){
    var url = "https://api.forecast.io/forecast/39367ea36c638ee65a9097bd2253fb04/" + lat + "," + longi + "?callback=?";
    var cityURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + longi + "&sensor=true";
    
-   $.getJSON(cityURL, getCity);
    var getCity = function(data) {
       window.alert("h");
       var city = data.results[0].address_components[2].long_name;
       document.getElementById("city").innerHTML = city;
    };
+   $.getJSON(cityURL, getCity);
 
    var success = function(data){
       var icon = "img/" + data.daily.icon + ".png";
