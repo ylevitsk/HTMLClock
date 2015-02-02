@@ -21,7 +21,47 @@ function getTime(){
 }
 
 function getTemp(){
-   var url = "https://api.forecast.io/forecast/39367ea36c638ee65a9097bd2253fb04/35.300399,-120.662362?callback=?";
+   var latitude = "35.300399";
+   var longitude = "-120.662362";
+   if(navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(function(coord) {
+         latitude = coord.coords.latitude;
+         longitude = coord.coords.longitude;
+         getTemperature(latitude, longitude);
+      }, function errorFunc(error) {
+         switch(error.code) {
+        case error.PERMISSION_DENIED:
+            document.getElementById("city").innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+             document.getElementById("city").innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+             document.getElementById("city").innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            document.getElementById("city").innerHTML = "An unknown error occurred."
+            break;
+    }
+      });
+   }
+   else {
+
+      getTemperature(latitude, longitude);
+   }
+}
+
+function getTemperature(lat, longi){
+   var url = "https://api.forecast.io/forecast/39367ea36c638ee65a9097bd2253fb04/" + lat + "," + longi + "?callback=?";
+   var cityURL = "https://maps.googleapis.com/maps/api/geocode/json?latlng=" + lat + "," + longi + "&sensor=true";
+   
+   $.getJSON(cityURL, getCity);
+   var getCity = function(data) {
+      window.alert("h");
+      var city = data.results[0].address_components[2].long_name;
+      document.getElementById("city").innerHTML = city;
+   };
+
    var success = function(data){
       var icon = "img/" + data.daily.icon + ".png";
       var color = getColor(data.daily.data[0].temperatureMax)
