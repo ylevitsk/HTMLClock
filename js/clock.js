@@ -163,6 +163,7 @@ function deleteAlarm(name, time){
     query.find( {
         success: function(results) {
             results[0].destroy({});
+            _gaq.push(['_trackEvent', 'Alarm', 'Delete']);
         }
     });
 }
@@ -215,6 +216,7 @@ function addAlarm(){
     alarmObject.save({"hours": hours, "mins": mins, "ampm": ampm, "alarmName": alarmName, "user_id": user_id}, {
         success: function(object) {
             insertAlarm(hours, mins, ampm, alarmName);
+            _gaq.push(['_trackEvent', 'Alarm', 'Add']);
             hideAlarmPopup();
         }   
     }); 
