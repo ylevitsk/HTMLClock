@@ -2,6 +2,22 @@ window.onload = function() {
     window.setInterval(getTime, 1000);
     getTemp();
 };
+
+function imgurCallback() {
+  var access_token = localStorage.getItem('accessToken')
+  var authorization = 'Bearer ' + access_token
+  $.ajax({
+     url: 'https://api.imgur.com/3/account/me',
+      method: 'GET',
+      headers: {
+          Authorization: authorization,
+          Accept: 'application/json'
+      },
+      success: function(result) {
+        alert(result.data.url)
+      }
+  });
+}
 var user_id = null;
 function testAPI() {
     console.log('Welcome!  Fetching your information.... ');
